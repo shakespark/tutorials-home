@@ -1,0 +1,33 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: rsync 到腾讯云
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo 't.miaowuao.cn ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKl8FY3IexI311v7HuYzX5Ja9bDz1LwzWU0qrm8etp05' > ~/.ssh/known_hosts
+
+          # 首页放在 _home/ 里（Nginx 把 / 指向 _home/index.html），这样 --delete 不会碰到各教程的目录
+          for i in 1 2 3; do
+            rsync -rlczi --delete --chmod=D755,F644 --timeout=60 \
+              --exclude=/.git/ --exclude=/.github/ --exclude=/README.md \
+              -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o ConnectTimeout=20" \
+              ./ deploy@t.miaowuao.cn:_home/ && exit 0
+            echo "第 $i 次失败，10 秒后重试"; sleep 10
+          done
+          exit 1
