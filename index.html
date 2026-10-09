@@ -181,10 +181,11 @@
     p.hidden = false;
   });
 </script>
-<script src="sync.js"></script>
 <script>
   // 同步面板。没有账号：开启时生成一个同步码，别的设备填同一个码就合并成一份。知道码的人能读写这份数据，所以码只显示给你自己看。
-  (() => {
+  // 首页在线上的地址是 /，文件却在 /_home/ 里，所以同步模块不能用相对路径引；本地直接打开 index.html 时才用相对路径。
+  const syncScript = Object.assign(document.createElement("script"), { src: location.protocol === "file:" || !/^\/(_home\/.*)?$/.test(location.pathname) ? "sync.js" : "/_home/sync.js" });
+  syncScript.onload = () => {
     const S = window.TSync, body = document.getElementById("sync-body");
     if (!S || !body) return;
     const h = (tag, attrs = {}, ...kids) => { const el = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) v == null || v === false ? 0 : k.startsWith("on") ? (el[k] = v) : k === "class" ? (el.className = v) : el.setAttribute(k, v); el.append(...kids.filter((x) => x != null)); return el; };
@@ -228,7 +229,8 @@
     }
     document.addEventListener("tsync", () => { if (!document.activeElement || !body.contains(document.activeElement) || document.activeElement.tagName === "BUTTON") draw(); });
     draw();
-  })();
+  };
+  document.head.append(syncScript);
 </script>
 </body>
 </html>
