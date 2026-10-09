@@ -10,7 +10,11 @@
 // 本文件自己的键：sync-code（同步码）、sync-base（上次同步后的样子）、sync-at（上次成功的时间）、sync-api（调试时改服务地址）。
 (() => {
   const PREFIXES = ["ostep-", "aposd-", "ggs-", "fr-", "hw-", "po-", "ds-", "home-"];
-  const wanted = (k) => PREFIXES.some((p) => k.startsWith(p)) && !k.endsWith("-theme");
+  // 「一条记录里装着很多件事」的键（值是 {编号: 状态} 的 JSON 对象）要拆开同步，一件事一条：键名#编号。
+  // 不拆的话是整条覆盖：手机上练了几题、电脑上练了另外几题，后同步的那台会把另一台的冲掉。
+  const AGG = ["aposd-srs"], SEP = "#";
+  const aggOf = (k) => AGG.find((a) => k.startsWith(a + SEP));
+  const wanted = (k) => PREFIXES.some((p) => k.startsWith(p)) && !k.endsWith("-theme") && !AGG.includes(k);
   const ls = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); return true; } catch { return false; } },
@@ -27,10 +31,26 @@
   const code = () => { const c = ls.get("sync-code"); return validCode(c || "") ? c : null; };
   const base = () => { try { return JSON.parse(ls.get("sync-base")) || {}; } catch { return {}; } };
 
+  const obj = (k) => { try { const o = JSON.parse(ls.get(k)); return o && typeof o === "object" && !Array.isArray(o) ? o : {}; } catch { return {}; } };
+  // 这台设备上现在有什么（拆开以后的样子）
   function current() {
     const out = {};
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (wanted(k)) out[k] = localStorage.getItem(k); } } catch {}
+    for (const a of AGG) for (const [id, v] of Object.entries(obj(a))) out[a + SEP + id] = JSON.stringify(v);
     return out;
+  }
+  // 把一批 {键: 值或 null} 写进 localStorage，拆开的键拼回原来那一条。只写和现在不一样的，返回写了几个。
+  function write(map) {
+    const cur = current(), agg = {}; let n = 0;
+    for (const [k, v] of Object.entries(map)) {
+      if (!wanted(k) || (v == null ? !(k in cur) : cur[k] === v)) continue;
+      const a = aggOf(k);
+      if (!a) { if (ls.set(k, v)) n++; continue; }
+      const o = (agg[a] ||= obj(a)), id = k.slice(a.length + SEP.length);
+      try { if (v == null) delete o[id]; else o[id] = JSON.parse(v); n++; } catch {}
+    }
+    for (const [a, o] of Object.entries(agg)) ls.set(a, JSON.stringify(o));
+    return n;
   }
   // 这台设备上次同步以后改了什么。第一次同步（还没有 base）时，本机已有的数据一律算「很早以前」：
   // 这样新设备加入时，服务器上已有的记录不会被本机的旧数据盖掉，本机独有的键照样会传上去。
@@ -51,11 +71,7 @@
   }
   // 把服务器合并后的结果写回本机。返回改动了几个键。
   function apply(keys) {
-    const cur = current(); let n = 0;
-    for (const [k, [, v]] of Object.entries(keys)) {
-      if (!wanted(k)) continue;
-      if (v == null ? k in cur : cur[k] !== v) { if (ls.set(k, v)) n++; }
-    }
+    const n = write(Object.fromEntries(Object.entries(keys).map(([k, [, v]]) => [k, v])));
     ls.set("sync-base", JSON.stringify(keys));
     ls.set("sync-at", String(Date.now()));
     return n;
@@ -100,9 +116,9 @@
     // 不走服务器的办法：全部导出成一段文本，到另一个浏览器里导入（按键覆盖）
     exportText: () => JSON.stringify({ app: "t.miaowuao.cn", at: Date.now(), keys: current() }),
     importText(text) {
-      const j = JSON.parse(text); let n = 0;
+      const j = JSON.parse(text);
       if (!j || j.app !== "t.miaowuao.cn" || typeof j.keys !== "object") throw new Error("这不是本站导出的数据");
-      for (const [k, v] of Object.entries(j.keys)) if (wanted(k) && typeof v === "string" && ls.set(k, v)) n++;
+      const n = write(Object.fromEntries(Object.entries(j.keys).filter(([, v]) => typeof v === "string")));
       emit();
       return n;
     },
