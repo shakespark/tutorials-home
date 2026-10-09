@@ -57,6 +57,23 @@
   .tut .foot .go { font-weight: 600; color: var(--tc, var(--accent)); }
   .tut .foot .src { position: relative; z-index: 1; margin-left: auto; color: var(--muted); }
 
+  /* 跨设备同步 */
+  .sync { margin: 40px 0 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 22px; }
+  .sync h2 { font-size: 18px; margin: 0 0 4px; }
+  .sync p { margin: 6px 0; color: var(--muted); font-size: 14.5px; }
+  .sync .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 4px; }
+  .sync button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--fg); cursor: pointer; }
+  .sync button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  .sync button:disabled { opacity: .5; cursor: default; }
+  .sync input, .sync textarea { font: 14px/1.5 var(--mono); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+  .sync input { flex: 1; min-width: 220px; }
+  .sync textarea { width: 100%; height: 90px; margin-top: 8px; }
+  .sync code { font: 15px/1.6 var(--mono); background: var(--surface-2); padding: 3px 10px; border-radius: 6px; color: var(--fg); word-break: break-all; }
+  .sync .msg { color: var(--fg); }
+  .sync .msg.err { color: var(--t2); }
+  .sync details { margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .sync summary { cursor: pointer; }
+
   footer { max-width: 920px; margin: 0 auto; padding: 24px 20px 40px; font-size: 13px; color: var(--muted); text-align: center; }
   footer a { color: var(--muted); }
 </style>
@@ -135,6 +152,11 @@
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/summer-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
   </section>
+
+  <section class="sync" id="sync" aria-label="跨设备同步">
+    <h2>在几台设备之间同步</h2>
+    <div id="sync-body"><p>学习进度、记下的词条和笔记默认只存在这个浏览器里。</p></div>
+  </section>
 </main>
 
 <footer>
@@ -158,6 +180,55 @@
     p.querySelector(".fill").style.width = `${Math.min(100, (done / total) * 100)}%`;
     p.hidden = false;
   });
+</script>
+<script src="sync.js"></script>
+<script>
+  // 同步面板。没有账号：开启时生成一个同步码，别的设备填同一个码就合并成一份。知道码的人能读写这份数据，所以码只显示给你自己看。
+  (() => {
+    const S = window.TSync, body = document.getElementById("sync-body");
+    if (!S || !body) return;
+    const h = (tag, attrs = {}, ...kids) => { const el = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) v == null || v === false ? 0 : k.startsWith("on") ? (el[k] = v) : k === "class" ? (el.className = v) : el.setAttribute(k, v); el.append(...kids.filter((x) => x != null)); return el; };
+    let msg = "", err = false, show = false, joining = false;
+    const say = (m, e = false) => { msg = m; err = e; draw(); };
+    const run = async (fn, okMsg) => { try { const r = await fn(); say(typeof okMsg === "function" ? okMsg(r) : okMsg); return r; } catch (e) { say(e.message || "出错了", true); } };
+    const ago = (t) => { const m = Math.round((Date.now() - t) / 60000); return !t ? "还没有同步过" : m < 1 ? "刚刚同步过" : m < 60 ? `${m} 分钟前同步过` : m < 1440 ? `${Math.round(m / 60)} 小时前同步过` : `${Math.round(m / 1440)} 天前同步过`; };
+    const tools = (() => {
+      const ta = h("textarea", { "aria-label": "导出或导入的数据", placeholder: "点「导出」后这里出现一段文本，复制到另一个浏览器的这个框里，点「导入」。" });
+      return h("details", {}, h("summary", {}, "不想用同步码？手动导出 / 导入"),
+        h("div", { class: "row" },
+          h("button", { onclick: () => { ta.value = S.exportText(); ta.select(); say(`已导出 ${S.count()} 条，复制框里的文本带到另一个浏览器。`); } }, "导出"),
+          h("button", { onclick: () => { try { const n = S.importText(ta.value); say(`已导入 ${n} 条，刷新页面就能看到进度。`); } catch (e) { say(e.message || "导入失败", true); } } }, "导入")),
+        ta);
+    })();   // 只建一次：重画面板时不能把框里的文本冲掉
+    function draw() {
+      const kids = [];
+      if (S.code) {
+        kids.push(h("p", {}, `这台设备已开启同步，${S.busy ? "正在同步…" : ago(S.lastAt)}。这个浏览器里有 ${S.count()} 条记录。`),
+          h("div", { class: "row" }, h("span", {}, "同步码："), h("code", {}, show ? S.prettyCode : "•••••-•••••-•••••-•••••-•••••-•"),
+            h("button", { onclick: () => { show = !show; draw(); } }, show ? "隐藏" : "显示")),
+          h("p", {}, "在另一台设备上打开本页，点「我有同步码」，填上面这个码。知道这个码的人能读写这份数据，别发给别人。"),
+          h("div", { class: "row" },
+            h("button", { class: "primary", disabled: S.busy ? "" : null, onclick: () => run(() => S.now(), (n) => n ? `同步完成，从别的设备拿到 ${n} 条改动，刷新页面可以看到。` : "同步完成，没有新的改动。") }, "立即同步"),
+            h("button", { onclick: () => { if (confirm("这台设备停止同步？本机的记录和服务器上的那一份都会留着。")) { S.stop(); say("已停止。"); } } }, "这台设备停止同步")));
+      } else if (joining) {
+        const input = h("input", { type: "text", "aria-label": "同步码", placeholder: "XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X", autocomplete: "off", spellcheck: "false" });
+        kids.push(h("p", {}, "填另一台设备上显示的同步码。这个浏览器里已有的记录会并进去，同一条记录以那边的为准。"),
+          h("div", { class: "row" }, input,
+            h("button", { class: "primary", onclick: () => run(() => S.join(input.value), (n) => { joining = false; return `已接上，拿到 ${n} 条记录。刷新页面可以看到进度。`; }) }, "接上"),
+            h("button", { onclick: () => { joining = false; say(""); } }, "取消")));
+      } else {
+        kids.push(h("p", {}, "学习进度、记下的词条和笔记默认只存在这个浏览器里。开启同步后，手机、电脑、别的浏览器上看到的是同一份。不用注册：开启时会给你一个同步码，在别的设备上填它就行。"),
+          h("div", { class: "row" },
+            h("button", { class: "primary", onclick: () => run(() => S.start(), () => { show = true; return "已开启。把下面的同步码记下来，别的设备要用。"; }) }, "开启同步"),
+            h("button", { onclick: () => { joining = true; say(""); } }, "我有同步码")));
+      }
+      if (msg) kids.push(h("p", { class: "msg" + (err ? " err" : ""), role: "status" }, msg));
+      kids.push(tools);
+      body.replaceChildren(...kids);
+    }
+    document.addEventListener("tsync", () => { if (!document.activeElement || !body.contains(document.activeElement) || document.activeElement.tagName === "BUTTON") draw(); });
+    draw();
+  })();
 </script>
 </body>
 </html>
