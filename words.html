@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的词本 · 图解教程</title>
+<meta name="description" content="几本英文伴读里记下的词与短语汇总在一起，按间隔复习。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f5bd3'/%3E%3C/svg%3E">
+<style>
+  /* 配色与首页一致 */
+  :root {
+    --bg: #f7f6f2; --surface: #ffffff; --surface-2: #f0eee8; --fg: #1d1d1f; --muted: #62625e; --faint: #9a9892;
+    --border: #dedbd2; --accent: #2f5bd3; --accent-soft: #e6ecfb; --ok: #1f8a4c; --ok-soft: #e3f4ea; --warn: #b7791f; --warn-soft: #fcf1dc; --bad: #c2362b; --bad-soft: #fbe6e3;
+    --radius: 10px; --shadow: 0 1px 2px rgba(0,0,0,.04), 0 2px 8px rgba(0,0,0,.04);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    --serif: Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16171a; --surface: #1f2024; --surface-2: #28292e; --fg: #e8e6e1; --muted: #a3a19b; --faint: #6d6b66;
+      --border: #34353b; --accent: #7aa2ff; --accent-soft: #232c45; --ok: #4cc27f; --ok-soft: #1b3326; --warn: #d9a23a; --warn-soft: #3a2f18; --bad: #f07167; --bad-soft: #3a2220;
+      --shadow: 0 1px 2px rgba(0,0,0,.3);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.7 var(--font); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 20px 40px; }
+  .back { font-size: 14px; }
+  h1 { font-size: clamp(28px, 6vw, 38px); line-height: 1.2; margin: 10px 0 6px; }
+  .lede { color: var(--muted); margin: 0 0 20px; }
+  button { font: inherit; font-size: 14.5px; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+  button:disabled { opacity: .5; cursor: default; }
+  .tabs { display: flex; gap: 8px; margin: 0 0 18px; }
+  .tabs button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+  /* 复习卡片 */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 24px; }
+  .card .where { font-size: 13px; color: var(--muted); }
+  .card .en { font: 600 clamp(24px, 6vw, 32px)/1.3 var(--serif); margin: 10px 0 8px; overflow-wrap: anywhere; }
+  .card .loc { font: italic 17px/1.6 var(--serif); color: var(--muted); margin: 0 0 6px; min-height: 1.6em; }
+  .card .back-side { border-top: 1px dashed var(--border); margin-top: 16px; padding-top: 14px; }
+  .card .zh { font-size: 19px; font-weight: 600; }
+  .card .note { color: var(--muted); margin-top: 6px; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 9px; border-radius: 99px; background: var(--warn-soft); color: var(--warn); vertical-align: middle; margin-left: 8px; }
+  .rate { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px; }
+  .rate button { padding: 10px 6px; }
+  .rate button small { display: block; font-size: 12px; color: var(--muted); }
+  .rate .r0 { border-color: var(--bad); } .rate .r1 { border-color: var(--warn); } .rate .r2 { border-color: var(--ok); }
+  .actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .progress { height: 6px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin: 0 0 14px; }
+  .progress i { display: block; height: 100%; background: var(--ok); }
+  .hint { font-size: 13px; color: var(--faint); margin-top: 12px; }
+  .done { text-align: center; padding: 36px 20px; }
+  .done b { display: block; font-size: 22px; margin-bottom: 6px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); margin: 14px 0 0; }
+  .stats b { color: var(--fg); font-variant-numeric: tabular-nums; }
+
+  /* 词本 */
+  .stats + .tools { margin-top: 14px; }
+  .tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 0 0 12px; }
+  .tools input { flex: 1; min-width: 180px; font: inherit; font-size: 15px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--fg); }
+  .book { margin: 22px 0 6px; font-size: 18px; }
+  .book small { font-weight: 400; color: var(--muted); font-size: 13.5px; margin-left: 8px; }
+  .page { font-size: 13.5px; color: var(--muted); margin: 12px 0 4px; }
+  .row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) auto auto; gap: 4px 12px; align-items: baseline; padding: 7px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin: 4px 0; }
+  .row .t { font: 600 16px/1.5 var(--serif); overflow-wrap: anywhere; }
+  .row .z { color: var(--muted); font-size: 14.5px; }
+  .row .b { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .row .b.new { color: var(--accent); } .row .b.ok { color: var(--ok); }
+  .row button { padding: 1px 9px; font-size: 13px; color: var(--muted); }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr auto auto; } .row .z { grid-column: 1 / -1; grid-row: 2; } }
+  .empty { background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); padding: 22px; color: var(--muted); }
+  footer { max-width: 760px; margin: 0 auto; padding: 24px 20px 40px; font-size: 13px; color: var(--muted); text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/">← 图解教程</a>
+  <h1>我的词本</h1>
+  <p class="lede">几本英文伴读里你点过「记下」的词与短语都在这里。每天复习到期的几条：记得的隔得越来越久，忘了的很快再来。</p>
+  <div class="tabs" role="tablist">
+    <button id="tab-review" aria-pressed="true">复习</button>
+    <button id="tab-book" aria-pressed="false">全部词条</button>
+  </div>
+  <div id="view"></div>
+</main>
+<footer>
+  <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备18057656号-1</a>
+</footer>
+
+<script src="sync.js"></script>
+<script>
+// 跨书词本和间隔复习。
+// 词条本身存在各伴读站自己的键里：<前缀>-star-<页 id>-<词条> = {"zh": "…"}（在章节页点「记下」时写的）。
+// 复习进度存在 home-srs-<上面那个键> = {"b": 盒子, "d": 到期时间(毫秒), "n": 复习过几次}，一个词一条记录
+// （同步是整条覆盖的，见 ~/tutorials-deploy/README.md「跨设备同步」，所以不能把所有词存成一张表）。
+// 原句片段、注释不另存：复习到某个词时，现取它所在的章节页，从里面找到这一条。
+(() => {
+  const BOOKS = {
+    fr: { dir: "feynman", name: "费曼的彩虹" },
+    hw: { dir: "hwgtn", name: "我们如何走到今天" },
+    po: { dir: "odyssey", name: "A Personal Odyssey" },
+    ds: { dir: "summer", name: "盛夏之门" },
+  };
+  const DAY = 864e5, INTERVAL = [0, 1, 2, 4, 8, 16, 32, 64];   // 盒子 b 的复习间隔（天）
+  const SESSION = 30;                                          // 一轮最多复习几条
+  const h = (tag, attrs = {}, ...kids) => { const el = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) v == null || v === false ? 0 : k.startsWith("on") ? (el[k] = v) : k === "class" ? (el.className = v) : el.setAttribute(k, v); el.append(...kids.flat().filter((x) => x != null && x !== false)); return el; };
+  const ls = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} },
+    keys() { try { return Object.keys(localStorage); } catch { return []; } },
+  };
+  const json = (s, d) => { try { const v = JSON.parse(s); return v ?? d; } catch { return d; } };
+  const pageLabel = (id) => (/^00/.test(id) ? "开读之前" : `第 ${Number(id.slice(0, 2))} 章` + (id.length > 2 ? `（${id.slice(2)}）` : ""));
+  const pageUrl = (w) => `/${BOOKS[w.book].dir}/chapters/${w.page}.html`;
+
+  // 全部记下的词条，带各自的复习进度
+  function words() {
+    const out = [];
+    for (const k of ls.keys()) {
+      const m = k.match(/^(fr|hw|po|ds)-star-(\d\d[a-z]?)-(.+)$/);
+      if (!m) continue;
+      const srs = json(ls.get("home-srs-" + k), null);
+      out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
+    }
+    const order = Object.keys(BOOKS);
+    return out.sort((a, b) => order.indexOf(a.book) - order.indexOf(b.book) || a.page.localeCompare(b.page) || a.term.localeCompare(b.term));
+  }
+  // 取消「记下」之后，留下的复习进度没用了，清掉
+  function sweep() {
+    for (const k of ls.keys()) if (k.startsWith("home-srs-") && ls.get(k.slice(9)) == null) ls.set(k, null);
+  }
+  const isDue = (w, now = Date.now()) => !w.srs || w.srs.d <= now;
+  function rate(w, q) {            // q：0 忘了，1 模糊，2 记得
+    const cur = w.srs || { b: 0, d: 0, n: 0 };
+    const b = q === 2 ? Math.min(cur.b + 1, INTERVAL.length - 1) : q === 1 ? Math.max(cur.b, 1) : 0;
+    const d = q === 0 ? Date.now() + 10 * 60e3 : Date.now() + INTERVAL[b] * DAY;
+    w.srs = { b, d, n: cur.n + 1 };
+    ls.set("home-srs-" + w.key, JSON.stringify(w.srs));
+  }
+  const nextIn = (b, q) => (q === 0 ? "10 分钟后" : `${INTERVAL[q === 2 ? Math.min(b + 1, INTERVAL.length - 1) : Math.max(b, 1)]} 天后`);
+
+  // 从章节页里取这一条的原句片段、注释、是不是「每个字都认识」
+  const pages = new Map();
+  function detail(w) {
+    const url = pageUrl(w);
+    if (!pages.has(url)) pages.set(url, fetch(url).then((r) => (r.ok ? r.text() : "")).then((t) => new DOMParser().parseFromString(t, "text/html")).catch(() => null));
+    return pages.get(url).then((doc) => {
+      const el = doc && [...doc.querySelectorAll(".entry")].find((e) => e.querySelector(".en")?.textContent.trim() === w.term);
+      if (!el) return {};
+      const text = (sel) => el.querySelector(sel)?.textContent.trim() || "";
+      return { loc: text(".loc"), zh: text(".zh"), note: text(".note"), trap: el.classList.contains("trap") };
+    });
+  }
+
+  const view = document.getElementById("view");
+  const tabs = { review: document.getElementById("tab-review"), book: document.getElementById("tab-book") };
+  let tab = "review", queue = null, pos = 0, shown = false, tally = [0, 0, 0];
+
+  function stats(all) {
+    const now = Date.now();
+    const due = all.filter((w) => isDue(w, now)).length, fresh = all.filter((w) => !w.srs).length, solid = all.filter((w) => w.srs && w.srs.b >= 5).length;
+    return h("div", { class: "stats" }, h("span", {}, "共 ", h("b", {}, all.length), " 条"), h("span", {}, "现在到期 ", h("b", {}, due), " 条"),
+      h("span", {}, "还没复习过 ", h("b", {}, fresh), " 条"), h("span", {}, "已经记牢 ", h("b", {}, solid), " 条"));
+  }
+  const empty = () => h("div", { class: "empty" }, "词本还是空的。去任何一本英文伴读的章节页，在词条右边点「记下」，它们会汇总到这里。");
+
+  function drawReview() {
+    const all = words();
+    if (!all.length) return view.replaceChildren(empty());
+    if (!queue) {
+      // 到期的排前面（拖得越久越靠前），没复习过的跟在后面；一轮最多 SESSION 条
+      const now = Date.now();
+      queue = all.filter((w) => isDue(w, now)).sort((a, b) => (a.srs ? a.srs.d : Infinity) - (b.srs ? b.srs.d : Infinity)).slice(0, SESSION);
+      pos = 0; shown = false; tally = [0, 0, 0];
+    }
+    if (pos >= queue.length) {
+      const left = words().filter((w) => isDue(w)).length;
+      const next = Math.min(...all.filter((w) => w.srs).map((w) => w.srs.d), Infinity);
+      const when = next === Infinity ? "" : next - Date.now() < DAY ? "下一条不到一天后到期。" : `下一条 ${Math.round((next - Date.now()) / DAY)} 天后到期。`;
+      return view.replaceChildren(h("div", { class: "card done" },
+        h("b", {}, queue.length ? "这一轮复习完了" : "现在没有到期的词条"),
+        queue.length ? h("div", {}, `记得 ${tally[2]} 条，模糊 ${tally[1]} 条，忘了 ${tally[0]} 条。`) : h("div", {}, when),
+        left ? h("div", { class: "actions" }, h("button", { class: "primary", onclick: () => { queue = null; drawReview(); } }, `还有 ${left} 条到期，再来一轮`)) : null), stats(words()));
+    }
+    const w = queue[pos], b = w.srs ? w.srs.b : 0;
+    const loc = h("p", { class: "loc" }, "…"), note = h("div", { class: "note" });
+    const back = h("div", { class: "back-side" }, h("div", { class: "zh" }, w.zh), note, h("div", { class: "actions" }, h("a", { href: pageUrl(w) }, "回到这一页看上下文 →")));
+    const where = h("div", { class: "where" }, `${BOOKS[w.book].name} · ${pageLabel(w.page)}`);
+    detail(w).then((d) => {
+      loc.textContent = d.loc || "（没取到原句，可能是离线，或者这一条后来改过）";
+      if (d.zh) back.querySelector(".zh").textContent = d.zh;
+      if (d.trap) back.querySelector(".zh").append(h("span", { class: "tag" }, "每个字都认识"));
+      note.textContent = d.note || "";
+    });
+    const go = (q) => { rate(w, q); tally[q]++; pos++; shown = false; drawReview(); };
+    view.replaceChildren(
+      h("div", { class: "progress" }, Object.assign(h("i"), { style: `width:${(100 * pos) / queue.length}%` })),
+      h("div", { class: "card" }, where, h("div", { class: "en" }, w.term), loc,
+        shown ? [back, h("div", { class: "rate" },
+          h("button", { class: "r0", onclick: () => go(0) }, "忘了", h("small", {}, nextIn(b, 0))),
+          h("button", { class: "r1", onclick: () => go(1) }, "模糊", h("small", {}, nextIn(b, 1))),
+          h("button", { class: "r2", onclick: () => go(2) }, "记得", h("small", {}, nextIn(b, 2))))]
+          : h("div", { class: "actions" }, h("button", { class: "primary", id: "reveal", onclick: () => { shown = true; drawReview(); } }, "先在心里说出意思，再点开"))),
+      h("div", { class: "hint" }, `第 ${pos + 1} / ${queue.length} 条。键盘：空格点开，1 忘了，2 模糊，3 记得。`));
+  }
+
+  let filter = "";
+  function drawBook() {
+    const all = words();
+    if (!all.length) return view.replaceChildren(empty());
+    const input = h("input", { type: "search", placeholder: "搜英文或中文", "aria-label": "搜索词条", value: filter });
+    const list = h("div");
+    const paint = () => {
+      const f = filter.trim().toLowerCase(), now = Date.now(), kids = [];
+      let book = "", page = "";
+      for (const w of all) {
+        if (f && !w.term.toLowerCase().includes(f) && !w.zh.toLowerCase().includes(f)) continue;
+        if (w.book !== book) { book = w.book; page = ""; kids.push(h("h2", { class: "book" }, BOOKS[book].name, h("small", {}, `${all.filter((x) => x.book === book).length} 条`))); }
+        if (w.page !== page) { page = w.page; kids.push(h("div", { class: "page" }, h("a", { href: pageUrl(w) }, pageLabel(page)))); }
+        const st = !w.srs ? ["new", "没复习过"] : w.srs.b >= 5 ? ["ok", "记牢了"] : w.srs.d <= now ? ["", "到期"] : ["", `${Math.max(1, Math.round((w.srs.d - now) / DAY))} 天后`];
+        kids.push(h("div", { class: "row" }, h("span", { class: "t" }, w.term), h("span", { class: "z" }, w.zh), h("span", { class: "b " + st[0] }, st[1]),
+          h("button", { title: "从词本里去掉", "aria-label": `去掉 ${w.term}`, onclick: () => { ls.set(w.key, null); ls.set("home-srs-" + w.key, null); queue = null; drawBook(); } }, "去掉")));
+      }
+      list.replaceChildren(...(kids.length ? kids : [h("div", { class: "empty" }, "没有匹配的词条。")]));
+    };
+    input.oninput = () => { filter = input.value; paint(); };
+    paint();
+    view.replaceChildren(stats(all), h("div", { class: "tools" }, input), list);
+  }
+
+  function draw() {
+    for (const [k, b] of Object.entries(tabs)) b.setAttribute("aria-pressed", String(k === tab));
+    tab === "review" ? drawReview() : drawBook();
+  }
+  tabs.review.onclick = () => { tab = "review"; draw(); };
+  tabs.book.onclick = () => { tab = "book"; queue = null; draw(); };
+  document.addEventListener("keydown", (e) => {
+    if (tab !== "review" || !queue || pos >= queue.length || e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === " " && !shown) { e.preventDefault(); shown = true; drawReview(); }
+    else if (shown && ["1", "2", "3"].includes(e.key)) { const w = queue[pos]; rate(w, Number(e.key) - 1); tally[Number(e.key) - 1]++; pos++; shown = false; drawReview(); }
+  });
+  sweep();
+  draw();
+})();
+</script>
+</body>
+</html>

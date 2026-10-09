@@ -71,6 +71,9 @@
   .sync code { font: 15px/1.6 var(--mono); background: var(--surface-2); padding: 3px 10px; border-radius: 6px; color: var(--fg); word-break: break-all; }
   .sync .msg { color: var(--fg); }
   .sync .msg.err { color: var(--t2); }
+  .sync a.go { font-weight: 600; }
+  .words { margin-top: 40px; }
+  .words + .sync { margin-top: 16px; }
   .sync details { margin-top: 10px; font-size: 14px; color: var(--muted); }
   .sync summary { cursor: pointer; }
 
@@ -153,6 +156,12 @@
     </article>
   </section>
 
+  <section class="sync words" id="words" aria-label="我的词本">
+    <h2>我的词本</h2>
+    <p id="words-line">几本英文伴读里点过「记下」的词与短语汇总在一起，按间隔复习：记得的隔得越来越久，忘了的很快再来。</p>
+    <div class="row"><a class="go" href="/_home/words.html">打开词本 →</a></div>
+  </section>
+
   <section class="sync" id="sync" aria-label="跨设备同步">
     <h2>在几台设备之间同步</h2>
     <div id="sync-body"><p>学习进度、记下的词条和笔记默认只存在这个浏览器里。</p></div>
@@ -182,6 +191,23 @@
     p.querySelector(".fill").style.width = `${Math.min(100, (done / total) * 100)}%`;
     p.hidden = false;
   });
+</script>
+<script>
+  // 词本：数一下几本伴读里记下了多少条、现在有多少条到期（复习进度在 home-srs-<词条的键> 里，见 words.html）
+  (() => {
+    let n = 0, due = 0;
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!/^(fr|hw|po|ds)-star-/.test(k)) continue;
+        n++;
+        let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
+        if (!s || s.d <= Date.now()) due++;
+      }
+    } catch (e) { return; }
+    if (n) document.getElementById("words-line").textContent = `你记下了 ${n} 条词与短语，` + (due ? `现在有 ${due} 条该复习了。` : "现在没有到期的。");
+    if (due) document.querySelector("#words a.go").textContent = `复习 ${Math.min(due, 30)} 条 →`;
+  })();
 </script>
 <script>
   // 同步面板。没有账号：开启时生成一个同步码，别的设备填同一个码就合并成一份。知道码的人能读写这份数据，所以码只显示给你自己看。
