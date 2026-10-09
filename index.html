@@ -171,7 +171,9 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k.startsWith(prefix) && JSON.parse(localStorage.getItem(k)) === true) done++;
+        if (!k.startsWith(prefix)) continue;
+        const v = localStorage.getItem(k);          // 早期的站存 true，伴读站存 "1"
+        if (v === "true" || v === "1") done++;
       }
     } catch (e) { return; }
     if (!done) return;
