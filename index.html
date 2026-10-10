@@ -154,6 +154,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/summer-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t4)" data-progress="ml-done-:19">
+      <div class="kicker">英文伴读 · 书信集</div>
+      <h2><a href="/letters/">A Man of Letters · 英文伴读</a></h2>
+      <div class="en">A Man of Letters — Thomas Sowell</div>
+      <p class="desc">陪你在 Kindle 上读英文原版的索维尔书信集，回忆录的原始材料和后续。每页先告诉你这些信写给谁、为什么写，给一张信件地图，对照 A Personal Odyssey 讲过的同一段，再解开词典查不到的短语。这一版电子书是扫描的，每页附错字表。</p>
+      <ul class="tags"><li>19 篇</li><li>1700 多条词与短语</li><li>140 张图</li><li>信件地图 · 对照回忆录</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/letters-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -199,7 +208,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;

@@ -9,7 +9,7 @@
 // 只同步各教程站自己的键（按前缀），主题（深/浅色）不同步：那是每台设备自己的事。
 // 本文件自己的键：sync-code（同步码）、sync-base（上次同步后的样子）、sync-at（上次成功的时间）、sync-api（调试时改服务地址）。
 (() => {
-  const PREFIXES = ["ostep-", "aposd-", "ggs-", "fr-", "hw-", "po-", "ds-", "home-"];
+  const PREFIXES = ["ostep-", "aposd-", "ggs-", "fr-", "hw-", "po-", "ds-", "ml-", "home-"];
   // 「一条记录里装着很多件事」的键（值是 {编号: 状态} 的 JSON 对象）要拆开同步，一件事一条：键名#编号。
   // 不拆的话是整条覆盖：手机上练了几题、电脑上练了另外几题，后同步的那台会把另一台的冲掉。
   const AGG = ["aposd-srs"], SEP = "#";

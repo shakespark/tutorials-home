@@ -106,6 +106,7 @@
     hw: { dir: "hwgtn", name: "我们如何走到今天" },
     po: { dir: "odyssey", name: "A Personal Odyssey" },
     ds: { dir: "summer", name: "盛夏之门" },
+    ml: { dir: "letters", name: "A Man of Letters", decades: ["60 年代", "70 年代", "80 年代", "90 年代", "2000 年代"] },
   };
   const DAY = 864e5, INTERVAL = [0, 1, 2, 4, 8, 16, 32, 64];   // 盒子 b 的复习间隔（天）
   const SESSION = 30;                                          // 一轮最多复习几条
@@ -116,14 +117,20 @@
     keys() { try { return Object.keys(localStorage); } catch { return []; } },
   };
   const json = (s, d) => { try { const v = JSON.parse(s); return v ?? d; } catch { return d; } };
-  const pageLabel = (id) => (/^00/.test(id) ? "开读之前" : `第 ${Number(id.slice(0, 2))} 章` + (id.length > 2 ? `（${id.slice(2)}）` : ""));
+  // 书信集按十年分页（BOOKS 里有 decades 的），其余按章
+  const pageLabel = (id, book) => {
+    if (/^00/.test(id)) return "开读之前";
+    const dec = (BOOKS[book] || {}).decades, n = Number(id.slice(0, 2)), part = id.slice(2);
+    if (dec) return dec[n - 1] + (part ? `（${"一二三四五六"[part.charCodeAt(0) - 97] || part}）` : "");
+    return `第 ${n} 章` + (part ? `（${part}）` : "");
+  };
   const pageUrl = (w) => `/${BOOKS[w.book].dir}/chapters/${w.page}.html`;
 
   // 全部记下的词条，带各自的复习进度
   function words() {
     const out = [];
     for (const k of ls.keys()) {
-      const m = k.match(/^(fr|hw|po|ds)-star-(\d\d[a-z]?)-(.+)$/);
+      const m = k.match(/^(fr|hw|po|ds|ml)-star-(\d\d[a-z]?)-(.+)$/);
       if (!m) continue;
       const srs = json(ls.get("home-srs-" + k), null);
       out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
@@ -191,7 +198,7 @@
     const w = queue[pos], b = w.srs ? w.srs.b : 0;
     const loc = h("p", { class: "loc" }, "…"), note = h("div", { class: "note" });
     const back = h("div", { class: "back-side" }, h("div", { class: "zh" }, w.zh), note, h("div", { class: "actions" }, h("a", { href: pageUrl(w) }, "回到这一页看上下文 →")));
-    const where = h("div", { class: "where" }, `${BOOKS[w.book].name} · ${pageLabel(w.page)}`);
+    const where = h("div", { class: "where" }, `${BOOKS[w.book].name} · ${pageLabel(w.page, w.book)}`);
     detail(w).then((d) => {
       loc.textContent = d.loc || "（没取到原句，可能是离线，或者这一条后来改过）";
       if (d.zh) back.querySelector(".zh").textContent = d.zh;
@@ -222,7 +229,7 @@
       for (const w of all) {
         if (f && !w.term.toLowerCase().includes(f) && !w.zh.toLowerCase().includes(f)) continue;
         if (w.book !== book) { book = w.book; page = ""; kids.push(h("h2", { class: "book" }, BOOKS[book].name, h("small", {}, `${all.filter((x) => x.book === book).length} 条`))); }
-        if (w.page !== page) { page = w.page; kids.push(h("div", { class: "page" }, h("a", { href: pageUrl(w) }, pageLabel(page)))); }
+        if (w.page !== page) { page = w.page; kids.push(h("div", { class: "page" }, h("a", { href: pageUrl(w) }, pageLabel(page, w.book)))); }
         const st = !w.srs ? ["new", "没复习过"] : w.srs.b >= 5 ? ["ok", "记牢了"] : w.srs.d <= now ? ["", "到期"] : ["", `${Math.max(1, Math.round((w.srs.d - now) / DAY))} 天后`];
         kids.push(h("div", { class: "row" }, h("span", { class: "t" }, w.term), h("span", { class: "z" }, w.zh), h("span", { class: "b " + st[0] }, st[1]),
           h("button", { title: "从词本里去掉", "aria-label": `去掉 ${w.term}`, onclick: () => { ls.set(w.key, null); ls.set("home-srs-" + w.key, null); queue = null; drawBook(); } }, "去掉")));
