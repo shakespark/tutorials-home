@@ -163,6 +163,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/letters-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="cm-done-:14">
+      <div class="kicker">英文伴读 · 商业史</div>
+      <h2><a href="/cmc/">Creating Modern Capitalism · 英文伴读</a></h2>
+      <div class="en">Creating Modern Capitalism — Thomas K. McCraw 主编</div>
+      <p class="desc">陪你读英文原版：英、德、美、日四国的资本主义和十二家公司，一章一万多词。每章给一张骨架图和按原书小标题排的分节地图，标好每次坐下读到哪；词条按节分组，读一节前先过一遍；再补背景和经济学概念，读完对照今天，最后的精彩回顾留着以后翻。</p>
+      <ul class="tags"><li>14 篇</li><li>2250 多条词与短语</li><li>160 多张图</li><li>分节地图 · 对照今天</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/cmc-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -208,7 +217,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
