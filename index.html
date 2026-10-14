@@ -172,6 +172,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/cmc-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t2)" data-progress="fc-done-:11">
+      <div class="kicker">导读 · 英文原版与译本对照</div>
+      <h2><a href="/ftc/">Free to Choose · 导读</a></h2>
+      <div class="en">Free to Choose — Milton and Rose Friedman（张琦译《自由选择》）</div>
+      <p class="desc">陪你读 1980 年这本论战书：英文纸书、Kindle、Audible 和张琦译本交替着用，每章一个开关切换读法，三个版本的位置都标好。读前下注、看论证骨架和分节地图，补上 1970 年代美国的背景和经济学；读后看反对的人怎么说、四十多年后事实怎样，再对照译本的漏译和误译。</p>
+      <ul class="tags"><li>11 篇</li><li>1250 多条词与短语</li><li>90 多张图</li><li>读前下注 · 反方 · 对照今天</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/ftc-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -217,7 +226,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;

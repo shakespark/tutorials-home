@@ -108,6 +108,7 @@
     ds: { dir: "summer", name: "盛夏之门" },
     ml: { dir: "letters", name: "A Man of Letters", decades: ["60 年代", "70 年代", "80 年代", "90 年代", "2000 年代"] },
     cm: { dir: "cmc", name: "Creating Modern Capitalism" },
+    fc: { dir: "ftc", name: "Free to Choose" },
   };
   const DAY = 864e5, INTERVAL = [0, 1, 2, 4, 8, 16, 32, 64];   // 盒子 b 的复习间隔（天）
   const SESSION = 30;                                          // 一轮最多复习几条
@@ -131,7 +132,7 @@
   function words() {
     const out = [];
     for (const k of ls.keys()) {
-      const m = k.match(/^(fr|hw|po|ds|ml|cm)-star-(\d\d[a-z]?)-(.+)$/);
+      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc)-star-(\d\d[a-z]?)-(.+)$/);
       if (!m) continue;
       const srs = json(ls.get("home-srs-" + k), null);
       out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
