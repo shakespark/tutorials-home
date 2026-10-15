@@ -181,6 +181,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/ftc-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t3)" data-progress="dd-done-:15">
+      <div class="kicker">导读 · 技术书</div>
+      <h2><a href="/ddia/">DDIA 第二版 · 导读</a></h2>
+      <div class="en">Designing Data-Intensive Applications, 2nd Edition — Martin Kleppmann and Chris Riccomini</div>
+      <p class="desc">陪你读《设计数据密集型应用》第二版：英文原书为主，读不顺按章号翻译本。每章先下注预测、看骨架和分节地图（一章分几次坐下读完），用中文和示意图把存储引擎、复制、事务、共识这些机制过一遍，十章各有一个能动手的模拟器；读完做原创场景的判断题，再看那些每个字都认识的短语。</p>
+      <ul class="tags"><li>15 篇</li><li>10 个模拟器</li><li>60 多张示意图</li><li>840 多条词与短语</li><li>判断题 · 全书术语</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/ddia-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -226,7 +235,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
