@@ -190,6 +190,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/ddia-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="sp-done-:17">
+      <div class="kicker">导读 · 技术书，偏重应用</div>
+      <h2><a href="/sysperf/">Systems Performance · 导读</a></h2>
+      <div class="en">Systems Performance: Enterprise and the Cloud, 2nd Edition — Brendan Gregg（译本《性能之巅》第 2 版，节号一致）</div>
+      <p class="desc">不劝你读完这本九百多页的书：先读几十页建立方法，遇到问题再按症状查进去。场景手册从「CPU 很忙」「慢但 CPU 不忙」「连接被拒」这些症状出发；每章一页，告诉你什么时候翻它、按什么顺序查、敲什么、看哪个数，分节地图标好先读、用到再查、可跳过；还有在 WSL2 上能做的小实验、诊断题和六个模拟器，环境说明照顾服务器和嵌入式板子。</p>
+      <ul class="tags"><li>17 篇</li><li>16 个场景</li><li>67 张工具卡</li><li>26 个动手实验</li><li>6 个模拟器</li><li>79 道诊断题</li><li>500 多条词与短语</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/sysperf-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -235,7 +244,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
