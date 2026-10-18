@@ -199,6 +199,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/sysperf-illustrated" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t4)" data-progress="pm-done-:24">
+      <div class="kicker">导读 · 随笔集，中文译本为主</div>
+      <h2><a href="/paris/">Paris to the Moon · 导读</a></h2>
+      <div class="en">Paris to the Moon: A Family in France — Adam Gopnik（以中文译本为主读，英文电子书辅助）</div>
+      <p class="desc">《纽约客》作者一家 1995 到 2000 年住在巴黎，写下的 23 篇随笔和圣诞日记。读者手上是中文译本：每篇先说它是在什么时候、什么事情底下写的，作者从哪件小事走到哪个大题目；分节地图用读译本时认得出的场面标出每一节，附英文开头方便翻电子书；补上作者默认你知道的法国背景；只收中文多半传不出原味的英文词句；最后是这件事后来怎样、几道题和一节精彩回顾。</p>
+      <ul class="tags"><li>23 篇＋开读之前</li><li>128 张回顾卡</li><li>157 道理解题</li><li>48 条「后来」</li><li>1200 多条词与短语</li><li>135 张照片</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/paris" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -244,7 +253,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
