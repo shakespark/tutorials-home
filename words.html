@@ -128,6 +128,8 @@
     if (/^00/.test(id)) return "开读之前";
     // 小说按进步报告分页：01 是报告 1–6，07 是报告 7–8，11a/11b 是报告 11 的前后半
     if ((BOOKS[book] || {}).reports) {
+      // 回忆录页 m1–m7（Flowers for Algernon 书后的回忆录），按章显示
+      if (/^m\d$/.test(id)) return "回忆录 " + ["第 1–3 章", "第 4–5 章", "第 6–8 章", "第 9–10 章", "第 11–14 章", "第 15–18 章", "第 19–23 章和后记"][Number(id[1]) - 1];
       const n = Number(id.slice(0, 2)), part = id.slice(2);
       return n === 1 ? "报告 1–6" : n === 7 ? "报告 7–8" : `报告 ${n}` + (part ? `（${"一二三"[part.charCodeAt(0) - 97] || part}）` : "");
     }
@@ -141,7 +143,7 @@
   function words() {
     const out = [];
     for (const k of ls.keys()) {
-      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al)-star-(\d\d[a-z]?)-(.+)$/);
+      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al)-star-(\d\d[a-z]?|m\d)-(.+)$/);
       if (!m) continue;
       const srs = json(ls.get("home-srs-" + k), null);
       out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
