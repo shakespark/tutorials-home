@@ -217,6 +217,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/algernon" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t2)" data-progress="bt-done-:20">
+      <div class="kicker">导读 · 随笔式的哲学书，英文原版（Kindle）</div>
+      <h2><a href="/borrowed/">On Borrowed Time · 导读</a></h2>
+      <div class="en">On Borrowed Time: The Art and Economy of Living with Deadlines — Harald Weinrich（Steven Rendall 英译，2008）</div>
+      <p class="desc">一位德国语文学家写「时间不够用」：从希波克拉底的「生命短，技艺长」讲到塞涅卡、但丁、歌德、帕斯卡、海德格尔，一直讲到《罗拉快跑》。一节换一个人，读着容易散，所以每页先说这几节在全书那条线上的哪里、作者怎么走；再用中文把用到的哲学概念讲一遍，交代书里的人和作品；电子书里排成图片、查不了词的引诗，逐行给出意思（古人的诗据原作语言译）；挑出难懂的英文词句；读完再看「作者到底说了什么」。</p>
+      <ul class="tags"><li>19 页＋开读之前</li><li>全书的线</li><li>63 个概念</li><li>42 段图里的引诗</li><li>1290 多条词与短语</li><li>131 道理解题</li><li>101 张回顾卡</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/borrowed" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -262,7 +271,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
