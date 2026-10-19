@@ -208,6 +208,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 篇</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/paris" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="al-done-:19">
+      <div class="kicker">导读 · 小说，英文原版（Kindle）</div>
+      <h2><a href="/algernon/">Flowers for Algernon · 导读</a></h2>
+      <div class="en">Flowers for Algernon — Daniel Keyes, 1966（附作者回忆录 Algernon, Charlie, and I，回忆录部分在做）</div>
+      <p class="desc">陪你读这部小说的英文原版：全书是查理自己写的 17 篇进步报告，错字、标点、句子随着他的智力起落。每页对一篇或半篇报告：先说查理此刻在哪、分节地图按书里的日期走，补上 1960 年代的心理学和纽约，挑出他拼错的字和「每个字都认识」的短语，难句附中译本的译法；读完原文再展开下半页：文字曲线、一段段冒出来的童年回忆、讨论题和「对照今天」。读过 1959 年中篇的人，长篇新加的情节在读完之前都不透露。</p>
+      <ul class="tags"><li>17 篇报告 18 页＋开读之前</li><li>文字曲线</li><li>39 张记忆卡</li><li>970 多条词与短语</li><li>31 张对照今天</li><li>106 道理解题</li><li>102 张回顾卡</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/algernon" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -253,7 +262,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;

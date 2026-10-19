@@ -112,6 +112,7 @@
     dd: { dir: "ddia", name: "DDIA 第二版" },
     sp: { dir: "sysperf", name: "Systems Performance" },
     pm: { dir: "paris", name: "Paris to the Moon", unit: "篇" },
+    al: { dir: "algernon", name: "Flowers for Algernon", reports: true },
   };
   const DAY = 864e5, INTERVAL = [0, 1, 2, 4, 8, 16, 32, 64];   // 盒子 b 的复习间隔（天）
   const SESSION = 30;                                          // 一轮最多复习几条
@@ -125,6 +126,11 @@
   // 书信集按十年分页（BOOKS 里有 decades 的），其余按章（BOOKS 里有 unit 的按那个单位，如随笔集的「篇」）
   const pageLabel = (id, book) => {
     if (/^00/.test(id)) return "开读之前";
+    // 小说按进步报告分页：01 是报告 1–6，07 是报告 7–8，11a/11b 是报告 11 的前后半
+    if ((BOOKS[book] || {}).reports) {
+      const n = Number(id.slice(0, 2)), part = id.slice(2);
+      return n === 1 ? "报告 1–6" : n === 7 ? "报告 7–8" : `报告 ${n}` + (part ? `（${"一二三"[part.charCodeAt(0) - 97] || part}）` : "");
+    }
     const dec = (BOOKS[book] || {}).decades, n = Number(id.slice(0, 2)), part = id.slice(2);
     if (dec) return dec[n - 1] + (part ? `（${"一二三四五六"[part.charCodeAt(0) - 97] || part}）` : "");
     return `第 ${n} ${(BOOKS[book] || {}).unit || "章"}` + (part ? `（${part}）` : "");
@@ -135,7 +141,7 @@
   function words() {
     const out = [];
     for (const k of ls.keys()) {
-      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm)-star-(\d\d[a-z]?)-(.+)$/);
+      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al)-star-(\d\d[a-z]?)-(.+)$/);
       if (!m) continue;
       const srs = json(ls.get("home-srs-" + k), null);
       out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
