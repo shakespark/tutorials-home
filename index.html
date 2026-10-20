@@ -226,6 +226,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/borrowed" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t3)" data-progress="up-done-:12">
+      <div class="kicker">导读 · 经济学家的自传，英文原版（Kindle）</div>
+      <h2><a href="/projects/">Up from the Projects · 导读</a></h2>
+      <div class="en">Up from the Projects: An Autobiography — Walter E. Williams（2010）</div>
+      <p class="desc">一位黑人经济学家从费城的公共住房、南方军营一路走到 UCLA、国会和电台。每页先说这一段在他一生的哪里，交代出场的人和作者默认你知道的时代背景；他讲最低工资、执照、平权、歧视的地方，先用中文把道理讲一遍，再摆出主流看法、他的看法和本站的评论，拿今天的数据对照；他和 Thomas Sowell 都写过的事，并排摆出两边的说法；书里影印的剪报和文件给出大意；挑出难懂的英文词句，留几个可以想一想的问题。</p>
+      <ul class="tags"><li>12 页＋开读之前</li><li>一生七段</li><li>25 个经济学概念</li><li>21 块看法与评论</li><li>23 张对照今天</li><li>40 处和 Sowell 对照</li><li>810 多条词与短语</li><li>82 道理解题</li><li>71 张回顾卡</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/projects" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -271,7 +280,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;

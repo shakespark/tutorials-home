@@ -114,6 +114,7 @@
     pm: { dir: "paris", name: "Paris to the Moon", unit: "篇" },
     al: { dir: "algernon", name: "Flowers for Algernon", reports: true },
     bt: { dir: "borrowed", name: "On Borrowed Time", pages: {"01a": "第 1 章 §1", "01b": "第 1 章 §2–§4", "02a": "第 2 章 §1–§2", "02b": "第 2 章 §3–§5", "02c": "第 2 章 §6–§7", "02d": "第 2 章 §8–§9", "03a": "第 3 章 §1–§2", "03b": "第 3 章 §3–§5", "04": "第 4 章 §1–§3", "05": "第 5 章 §1–§3", "06a": "第 6 章 §1–§3", "06b": "第 6 章 §4–§5", "07": "第 7 章 §1–§4", "08a": "第 8 章 §1–§2", "08b": "第 8 章 §3–§4", "09a": "第 9 章 §1–§4", "09b": "第 9 章 §5–§8", "09c": "第 9 章 §9–§13", "10": "尾声"} },
+    up: { dir: "projects", name: "Up from the Projects", pages: {"01a": "第 1 章 序言–§3", "01b": "第 1 章 §4–§6", "02": "第 2 章", "03a": "第 3 章 §1–§5", "03b": "第 3 章 §6–§9", "04a": "第 4 章 §1–§5", "04b": "第 4 章 §6", "05a": "第 5 章 §1–§3", "05b": "第 5 章 §4–§7", "06a": "第 6 章 §1–§3", "06b": "第 6 章 §4–§8", "07": "第 7 章"} },
   };
   const DAY = 864e5, INTERVAL = [0, 1, 2, 4, 8, 16, 32, 64];   // 盒子 b 的复习间隔（天）
   const SESSION = 30;                                          // 一轮最多复习几条
@@ -146,7 +147,7 @@
   function words() {
     const out = [];
     for (const k of ls.keys()) {
-      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt)-star-(\d\d[a-z]?|m\d)-(.+)$/);
+      const m = k.match(/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up)-star-(\d\d[a-z]?|m\d)-(.+)$/);
       if (!m) continue;
       const srs = json(ls.get("home-srs-" + k), null);
       out.push({ key: k, book: m[1], page: m[2], term: m[3], zh: json(ls.get(k), {}).zh || "", srs });
