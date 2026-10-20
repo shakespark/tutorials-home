@@ -235,6 +235,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/projects" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="dw-done-:9">
+      <div class="kicker">导读 · 精神分析随笔，英文原版（Kindle）</div>
+      <h2><a href="/worms/">Darwin's Worms · 导读</a></h2>
+      <div class="en">Darwin's Worms: On Life Stories and Death Stories — Adam Phillips, 1999</div>
+      <p class="desc">一位英国精神分析师读达尔文和弗洛伊德：一个一辈子赞美蚯蚓，一个一辈子痛恨传记，两人怎样在没有上帝的世界里对待失去和死亡。Phillips 一段话拐好几个弯，所以每页先说这几节在全书的哪里、作者怎么走，再用中文讲清精神分析和进化论的概念、书里的人和作品；书里引的达尔文、弗洛伊德原文（公有领域）整段摆出来，配本站从英文、德文译的全文，点出 Phillips 引了什么、漏了什么；挑出他的悖论句和难懂的说法；每页最后讲清作者到底说了什么，再摆出主流看法、作者的看法和本站的评论。另有一页专讲达尔文 1881 年的蚯蚓书。</p>
+      <ul class="tags"><li>9 页＋开读之前＋蚯蚓书专页</li><li>全书的线</li><li>29 个概念</li><li>37 段原典全译</li><li>27 块看法与评论</li><li>540 多条词与短语</li><li>59 道理解题</li><li>60 张回顾卡</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/worms" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -280,7 +289,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
