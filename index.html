@@ -244,6 +244,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/worms" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t2)" data-progress="sg-done-:22">
+      <div class="kicker">导读 · 进化生物学科普，英文原版（Kindle）对照中译本</div>
+      <h2><a href="/selfish/">The Selfish Gene · 导读</a></h2>
+      <div class="en">The Selfish Gene, 30th Anniversary edition — Richard Dawkins, 1976 / 1989 / 2006</div>
+      <p class="desc">自然选择挑的是基因，身体是基因造来替它们活的机器：从这一点推出动物的打斗、亲属之间的帮助、亲子和两性的冲突、陌生者的合作，再推到文化里的觅母。原书各章一两万词、没有小标题，所以每页先说这几节在全书的哪里、作者怎么一步步推，用中文讲清 ESS、亲缘系数这些概念；鹰鸽、亲缘、两性之战、记仇的鸟、囚徒困境锦标赛做成能调参数的模拟器；每个星号点开是作者 1989 年的什么尾注、有没有改口，先告诉你；对着中译本读，每页有逐段的译本勘误；每页最后讲清作者到底说了什么，书里的说法后来怎样了，本站怎么看。</p>
+      <ul class="tags"><li>22 页＋开读之前</li><li>5 个模拟器</li><li>82 个概念</li><li>62 条尾注导读</li><li>64 张对照今天</li><li>380 条译本勘误</li><li>1090 条词与短语</li><li>147 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/selfish" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -289,7 +298,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
