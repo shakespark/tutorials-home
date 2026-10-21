@@ -262,6 +262,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/wealth" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="uc-done-:20">
+      <div class="kicker">导读 · 商业和政策里的随机试验，英文原版（Kindle）</div>
+      <h2><a href="/uncontrolled/">Uncontrolled · 导读</a></h2>
+      <div class="en">Uncontrolled: The Surprising Payoff of Trial-and-Error for Business, Politics, and Society — Jim Manzi, 2012</div>
+      <p class="desc">一位做随机试验软件生意的保守派作者问：在商业和政策这类原因纠缠不清的地方，我们凭什么知道一项措施有没有用？全书从培根、休谟讲到随机试验的发明，再到门店改名、福利改革、择校，最后落到「因为无知，所以要分权试错」的政治主张。每页先说这几节在全书的哪里、作者怎么一步步推，用中文讲清随机分组、回归、因果密度这些概念，五个关键道理做成能调参数的模拟器，交代书里的人、研究和美国的政策背景；每节标好先读、有空、可跳过，拼出一条全书最短读法；每页最后讲清作者到底说了什么，书里的说法十几年后怎样了，再摆出主流看法、作者的看法和本站的评论。</p>
+      <ul class="tags"><li>20 页＋开读之前</li><li>全书最短读法</li><li>5 个模拟器</li><li>75 个概念</li><li>50 张对照今天</li><li>54 块看法与评论</li><li>850 多条词与短语</li><li>133 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/uncontrolled" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -307,7 +316,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
