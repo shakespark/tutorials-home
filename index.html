@@ -280,6 +280,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/impro" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t3)" data-progress="mm-done-:11">
+      <div class="kicker">导读 · 带人的经理怎么当，英文纸书对着繁体译本读</div>
+      <h2><a href="/manager/">The Making of a Manager · 导读</a></h2>
+      <div class="en">The Making of a Manager: What to Do When Everyone Looks to You — Julie Zhuo, 2019</div>
+      <p class="desc">Facebook 的产品设计副总裁 25 岁被推上经理位置，把十多年里学会的事写成这本书：经理到底是干什么的，一对一面谈怎么谈，坏消息怎么说，会怎么开，人怎么招，团队大了以后怎么办。每章用中文讲清管理的概念，把书里的办法整理成遇到问题时能查的情境卡，配原创的判断题先想后看；收原文里的美式口语和硅谷行话，逐段对照許恬寧的繁体译本，挑出会让人读歪的地方；每节标好先读、有空、可跳过；每页最后讲清作者到底说了什么，2019 年以后远程办公、裁员潮、AI 来了情况怎样，再摆出主流看法、作者的看法和本站的评论。</p>
+      <ul class="tags"><li>11 页＋开读之前</li><li>全书最短读法</li><li>38 张情境卡</li><li>32 道判断题</li><li>33 个概念</li><li>580 多条词与短语</li><li>84 条译本勘误</li><li>26 张今天怎么看</li><li>33 块看法与评论</li><li>70 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/manager" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -325,7 +334,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
