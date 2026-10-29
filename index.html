@@ -289,6 +289,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/manager" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t1)" data-progress="fb-done-:19">
+      <div class="kicker">导读 · 把运气错当成本事，对着繁体译本《隨機騙局》读</div>
+      <h2><a href="/fooled/">Fooled by Randomness · 导读</a></h2>
+      <div class="en">Fooled by Randomness: The Hidden Role of Chance in Life and in the Markets — Nassim Nicholas Taleb, 2004（增订第二版）</div>
+      <p class="desc">做了多年期权交易的塔勒布写人怎样把运气错当成本事：交易室里赚大钱的人、电视上解释行情的专家、连赢五年的基金经理，有多少只是活下来的那一个。每页用中文讲清偏态、蒙特卡洛、噪声和信息、幸存者偏差这些概率直觉和书里的金融行话，五页配了能改参数的模拟器，交代华尔街、1998 年的危机和书里的哲学家；逐段对照羅耀宗的繁体译本，挑出会让人读歪的地方。每页中间一道「先停下，去读原书」的线，线以下才讲作者到底说了什么、二十多年后怎样了、本站怎么看。</p>
+      <ul class="tags"><li>19 页＋开读之前</li><li>全书最短读法</li><li>5 个模拟器</li><li>80 个概念</li><li>340 多条词与短语</li><li>163 条译本勘误</li><li>51 张今天怎么看</li><li>57 块看法与评论</li><li>125 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/fooled" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -334,7 +343,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm|fb)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
