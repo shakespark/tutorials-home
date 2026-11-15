@@ -298,6 +298,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/fooled" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t2)" data-progress="ts-done-:15">
+      <div class="kicker">导读 · 存量、流量和反馈回路，对着中译本《系统之美》读</div>
+      <h2><a href="/systems/">Thinking in Systems · 导读</a></h2>
+      <div class="en">Thinking in Systems: A Primer — Donella H. Meadows, 2008（Diana Wright 编；初稿 1993）</div>
+      <p class="desc">《增长的极限》的主要作者米多斯写给门外汉的系统思考入门：浴缸里的水为什么只能慢慢涨落，恒温器、库存、油田和渔场的行为怎样藏在回路的结构里，八个反复出现的系统陷阱，十二个由弱到强的杠杆点，和系统共处的十五条准则。每页用中文讲清存量、流量、反馈、延迟这些概念，五个能改参数、先猜再跑的模拟器，原创情境题问你这是哪个陷阱、杠杆点在哪；逐段对照邱昭良的译本，挑出会让人读歪的地方，并给出原书小标题和英文开头，方便翻纸书。每页最后讲清作者到底说了什么，三十年后哪些说法站住了、哪些被改写，再摆出主流看法、作者的看法和本站的评论。</p>
+      <ul class="tags"><li>14 页＋开读之前</li><li>全书最短读法</li><li>5 个模拟器</li><li>48 道情境题</li><li>50 个概念</li><li>230 多条词与短语</li><li>321 条译本勘误</li><li>29 张今天怎么看</li><li>38 块看法与评论</li><li>88 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/systems" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -343,7 +352,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm|fb)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm|fb|ts)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
