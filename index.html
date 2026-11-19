@@ -316,6 +316,15 @@
       <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
       <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/republic" target="_blank" rel="noopener">GitHub ↗</a></div>
     </article>
+    <article class="tut" style="--tc: var(--t3)" data-progress="eg-done-:10">
+      <div class="kicker">英文伴读 · 导读 · 从杠杆、蒸汽机到电网、芯片和风险</div>
+      <h2><a href="/eng/">工程 · 导读</a></h2>
+      <div class="en">Engineering: A Very Short Introduction — David Blockley, Oxford University Press, 2012</div>
+      <p class="desc">布里斯托大学的土木工程教授 Blockley 写给门外汉的工程通识：工程是什么、和科学有什么不同，再按他划的重力、热、电磁、信息、系统五个「时代」，讲人类怎样从杠杆和秋千走到蒸汽机、电网、晶体管，最后落到今天的复杂系统和事故。每页用中文讲清功和能、共振、卡诺上限、电磁感应、逻辑门、安全系数、瑞士奶酪这些概念，六个能改参数、先猜再跑的模拟器；介绍书里的工程师和工程，配维基照片；收英文里词典帮不上忙的说法，可以记进词本。每页最后讲清作者到底说了什么，2012 年以后哪些说法站住了、哪些被改写，再给出本站的看法。原书章里没有小标题，节是本站分的，每节给了开头的英文词，方便在 Kindle 里搜。</p>
+      <ul class="tags"><li>9 页＋开读之前</li><li>全书最短读法</li><li>6 个模拟器</li><li>43 个概念</li><li>41 个书里的人和工程</li><li>160 多条词与短语</li><li>21 张今天怎么看</li><li>25 块看法与评论</li><li>63 道理解题</li></ul>
+      <div class="progress" hidden><div class="track"><div class="fill"></div></div><span>已读完 <b></b> 页</span></div>
+      <div class="foot"><span class="go">开始阅读 →</span><a class="src" href="https://github.com/shakespark/my-book-companion/tree/main/eng" target="_blank" rel="noopener">GitHub ↗</a></div>
+    </article>
   </section>
 
   <section class="sync words" id="words" aria-label="我的词本">
@@ -361,7 +370,7 @@
     try {
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm|fb|ts)-star-/.test(k)) continue;
+        if (!/^(fr|hw|po|ds|ml|cm|fc|dd|sp|pm|al|bt|up|dw|sg|uc|mm|fb|ts|eg)-star-/.test(k)) continue;
         n++;
         let s = null; try { s = JSON.parse(localStorage.getItem("home-srs-" + k)); } catch (e) {}
         if (!s || s.d <= Date.now()) due++;
